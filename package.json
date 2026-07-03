@@ -1,0 +1,25 @@
+{
+  "name": "reader3000-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "author": "Angel Ponce Espinosa (https://angelponce.com)",
+  "type": "module",
+  "files": [
+    "mcp.mjs"
+  ],
+  "description": "MCP server for READER.IIIK (reader3000.com): share Markdown documents with people, read their inline notes back, leave your own as Mr. Robot. Talks only to the reader3000 gateway over HTTPS; keeps a local ledger of the documents it created so they stay yours to revise or delete after the conversation ends.",
+  "bin": {
+    "reader3000-mcp": "./mcp.mjs"
+  },
+  "scripts": {
+    "test": "node mcp-contract.test.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.29.0",
+    "zod": "3.25.76"
+  }
+}
