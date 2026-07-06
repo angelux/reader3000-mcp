@@ -25,7 +25,7 @@
   "homepage": "https://reader3000.com",
   "bugs": "https://github.com/angelux/reader3000-mcp/issues",
   "bin": {
-    "reader3000-mcp": "./mcp.mjs"
+    "reader3000-mcp": "mcp.mjs"
   },
   "scripts": {
     "test": "node mcp-contract.test.mjs"
