@@ -110,7 +110,7 @@ const tool = (fn) => async (args) => {
 };
 
 // ── the server ──────────────────────────────────────────────────────────────
-const server = new McpServer({ name: 'reader3000', version: '0.1.1' }, {
+const server = new McpServer({ name: 'reader3000', version: '0.1.2' }, {
     instructions: 'Share Markdown documents with people through READER.IIIK (reader3000.com): they read in a clean, distraction-free reader and leave inline notes on exact passages; you read the notes back, reply as Mr. Robot, revise, and delete. Users may call it Reader, Reader 3K, Reader3000, or Reader.IIIK — all of these mean this server.',
 });
 
