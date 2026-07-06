@@ -110,11 +110,13 @@ const tool = (fn) => async (args) => {
 };
 
 // ── the server ──────────────────────────────────────────────────────────────
-const server = new McpServer({ name: 'reader3000', version: '0.1.0' });
+const server = new McpServer({ name: 'reader3000', version: '0.1.0' }, {
+    instructions: 'Share Markdown documents with people through READER.IIIK (reader3000.com): they read in a clean, distraction-free reader and leave inline notes on exact passages; you read the notes back, reply as Mr. Robot, revise, and delete. Users may call it Reader, Reader 3K, Reader3000, or Reader.IIIK — all of these mean this server.',
+});
 
 server.registerTool('create', {
     title: 'Share a document for review',
-    description: 'Share a Markdown document with a person through READER.IIIK (reader3000.com): give them the returned link and they read it in a clean, distraction-free UI, mark exact passages, and leave inline notes you read back with `read`. Returns the share link plus the document\'s codename — the handle the local ledger files it under; use the codename as `ref` in the other tools. Stored encrypted at rest on reader3000\'s server (the gateway sees the text in transit), expires after 30 days, deletable earlier with `delete`. A surface for a review loop, not a place to keep anything important.',
+    description: 'Share a Markdown document with a person through READER.IIIK (reader3000.com; people may call it Reader, Reader 3K, Reader3000, or Reader.IIIK): give them the returned link and they read it in a clean, distraction-free UI, mark exact passages, and leave inline notes you read back with `read`. Returns the share link plus the document\'s codename — the handle the local ledger files it under; use the codename as `ref` in the other tools. Stored encrypted at rest on reader3000\'s server (the gateway sees the text in transit), expires after 30 days, deletable earlier with `delete`. A surface for a review loop, not a place to keep anything important.',
     inputSchema: { markdown: z.string().describe('The Markdown document to share.') },
 }, tool(async ({ markdown }) => {
     const r = await gateway('/create', { markdown });
@@ -130,13 +132,13 @@ server.registerTool('create', {
 
 server.registerTool('read', {
     title: 'Read a document and its notes',
-    description: 'Read a reader3000 document and the inline notes on it. `ref` is a codename from your ledger or a reader3000.com share link someone gave you. Returns the clean Markdown, the notes — each with its exact passage (`quote`), text, and author ("Ms. Pink", "Mr. Robot") — and the current `version`. When notes are present, they are the change requests: act on them.',
+    description: 'Read a READER.IIIK document and the inline notes on it. `ref` is a codename from your ledger or a reader3000.com share link someone gave you. Returns the clean Markdown, the notes — each with its exact passage (`quote`), text, and author ("Ms. Pink", "Mr. Robot") — and the current `version`. When notes are present, they are the change requests: act on them.',
     inputSchema: { ref: z.string().describe('A ledger codename or a reader3000.com share link.') },
 }, tool(async ({ ref }) => ok(await gateway('/read', resolveRef(ref)))));
 
 server.registerTool('annotate', {
     title: 'Leave notes on a document',
-    description: 'Add your own inline notes to a reader3000 document — you write as Mr. Robot, the reserved agent persona. `notes` is a list of { quote, note }: `quote` must be the exact passage text as it appears in the document\'s clean Markdown (read it first), `note` is your comment on it. Additive: everyone else\'s notes survive. Use it to review something a person shared with you, or to reply on your own shared document.',
+    description: 'Add your own inline notes to a READER.IIIK document — you write as Mr. Robot, the reserved agent persona. `notes` is a list of { quote, note }: `quote` must be the exact passage text as it appears in the document\'s clean Markdown (read it first), `note` is your comment on it. Additive: everyone else\'s notes survive. Use it to review something a person shared with you, or to reply on your own shared document.',
     inputSchema: {
         ref: z.string().describe('A ledger codename or a reader3000.com share link.'),
         notes: z.array(z.object({
@@ -148,7 +150,7 @@ server.registerTool('annotate', {
 
 server.registerTool('revise', {
     title: 'Replace a document with a new version',
-    description: 'Replace a reader3000 document\'s content with new Markdown — the move after you\'ve read the notes and applied them. Consumes the notes (they were about the old text). Pass the `version` you got from `read`: a concurrent change is then refused instead of overwritten, and you read again. Omitting it still writes conditionally, just against the latest version.',
+    description: 'Replace a READER.IIIK document\'s content with new Markdown — the move after you\'ve read the notes and applied them. Consumes the notes (they were about the old text). Pass the `version` you got from `read`: a concurrent change is then refused instead of overwritten, and you read again. Omitting it still writes conditionally, just against the latest version.',
     inputSchema: {
         ref: z.string().describe('A ledger codename or a reader3000.com share link.'),
         markdown: z.string().describe('The new Markdown content.'),
@@ -181,7 +183,7 @@ server.registerTool('delete', {
 
 server.registerTool('list', {
     title: 'List the documents this server created',
-    description: 'The local ledger: every document this MCP created and still holds custody of — codename, name, share link, created date, and expiry. Documents expire on the server 30 days after creation; an expired entry is shown as expired, not silently dropped. Documents other people shared with you are not listed — a link is theirs, not custody.',
+    description: 'The local ledger: every document this server created and still holds custody of — codename, name, share link, created date, and expiry. Documents expire on the server 30 days after creation; an expired entry is shown as expired, not silently dropped. Documents other people shared with you are not listed — a link is theirs, not custody.',
     inputSchema: {},
 }, tool(async () => ok(foldLedger().map(r => ({
     codename: r.codename,

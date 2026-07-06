@@ -12,7 +12,7 @@ A surface for a review loop, **not a place to keep anything important**.
 ## Install
 
 ```
-claude mcp add reader3000 -- npx reader3000-mcp
+claude mcp add reader3000 -- npx -y reader3000-mcp
 ```
 
 (or point your MCP host at `node mcp.mjs` from a checkout).
@@ -69,9 +69,10 @@ the host's server config (`env` block), not your shell profile.
 
 ## Verifying
 
-`npm install`, then `npm test` — the contract suite drives the real server
-over stdio against a stub gateway (no network, no reader3000 account needed)
-and locks the secret-hygiene rule: no tool output ever contains a handle.
+`npm install`, then `npm test` — from a checkout or the unpacked npm tarball,
+which ships the suite. It drives the real server over stdio against a stub
+gateway (no network, no reader3000 account needed) and locks the
+secret-hygiene rule: no tool output ever contains a handle.
 
 This repository is published for use and audit; it does not take
 contributions.
