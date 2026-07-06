@@ -76,9 +76,3 @@ secret-hygiene rule: no tool output ever contains a handle.
 
 This repository is published for use and audit; it does not take
 contributions.
-
----
-
-Made by Angel Ponce Espinosa — [angelponce.com](https://angelponce.com) ·
-[@angelux@indieweb.social](https://indieweb.social/@angelux) ·
-[x.com/tokenmechanik](https://x.com/tokenmechanik)
