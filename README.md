@@ -11,11 +11,25 @@ A surface for a review loop, **not a place to keep anything important**.
 
 ## Install
 
-```
-claude mcp add reader3000 -- npx -y reader3000-mcp
+`reader3000-mcp` is a standard stdio MCP server. Point any MCP host at
+`npx -y reader3000-mcp` — the one command every host wraps. Most hosts read it
+as a config-file entry:
+
+```json
+{ "mcpServers": { "reader3000": { "command": "npx", "args": ["-y", "reader3000-mcp"] } } }
 ```
 
-(or point your MCP host at `node mcp.mjs` from a checkout).
+Some spell the same thing as a one-line command:
+
+```
+claude mcp add reader3000 -- npx -y reader3000-mcp   # Claude Code
+```
+
+```
+codex mcp add reader3000 -- npx -y reader3000-mcp    # Codex
+```
+
+Or run it from a checkout: point your host at `node mcp.mjs`.
 
 ## Tools
 
