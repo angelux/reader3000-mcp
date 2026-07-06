@@ -22,12 +22,16 @@ as a config-file entry:
 Some spell the same thing as a one-line command:
 
 ```
-claude mcp add reader3000 -- npx -y reader3000-mcp   # Claude Code
+claude mcp add reader3000 --scope user -- npx -y reader3000-mcp   # Claude Code
 ```
 
 ```
 codex mcp add reader3000 -- npx -y reader3000-mcp    # Codex
 ```
+
+The `--scope user` flag installs it for every project. Without it, Claude Code
+adds the server to the current directory only. Codex installs for all projects
+by default.
 
 Or run it from a checkout: point your host at `node mcp.mjs`.
 
